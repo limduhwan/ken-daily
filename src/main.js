@@ -24,3 +24,6 @@ new Vue({
 //npm install bootstrap
 //npm install vue-tables-2
 //npm install vue-nav-tabs
+//npm i bootstrap-vue
+//npm i vue
+//npm i vuetable

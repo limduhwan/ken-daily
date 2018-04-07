@@ -14,10 +14,13 @@
   },
   "dependencies": {
     "bootstrap": "^4.0.0",
-    "vue": "^2.5.2",
+    "bootstrap-vue": "^2.0.0-rc.6",
+    "firebase": "^4.12.1",
+    "vue": "^2.5.16",
     "vue-nav-tabs": "^0.5.6",
     "vue-router": "^3.0.1",
-    "vue-tables-2": "^1.4.0"
+    "vue-tables-2": "^1.4.0",
+    "vuetable": "^1.5.12"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

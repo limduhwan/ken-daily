@@ -5,13 +5,21 @@
         <v-tab title="News Paper">
           <news-paper></news-paper>
         </v-tab>
+        <v-tab title="암기할 문장">
 
+        </v-tab>
         <v-tab title="Voca">
           Second tab content
         </v-tab>
 
-        <v-tab title="Reading">
+        <v-tab title="독서">
           Third tab content
+        </v-tab>
+        <v-tab title="스터디">
+
+        </v-tab>
+        <v-tab title="Links">
+
         </v-tab>
       </vue-tabs>
     </main>

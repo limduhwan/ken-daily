@@ -1,5 +1,5 @@
 <template>
-  <div class ="newspaper-table">
+  <div>
     <div>
       <div class="centered">
         <select v-model="selected">
@@ -11,31 +11,80 @@
       </div>
     </div>
     <br>
-    <div class="table th td">
+    <div>
       <v-client-table :data="tableData" :columns="colums" :options="options">
-
+        <div slot="child_row" slot-scope="props">
+          The Content is here {{props.row.content}}
+        </div>
+        <a slot="title" slot-scope="props" target="_blank" :href="props.row.link">
+          {{props.row.title}}
+        </a>
+        <div slot="studyyn" slot-scope="props">
+          <select v-model="props.row.studyyn">
+            <option>Y</option>
+            <option>N</option>
+          </select>
+        </div>
       </v-client-table>
     </div>
   </div>
 </template>
 
 <script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCDi2lA_VDjijGtojpxokaUkHRimcUXc0k",
+    authDomain: "ken-daily.firebaseapp.com",
+    databaseURL: "https://ken-daily.firebaseio.com",
+    projectId: "ken-daily",
+    storageBucket: "ken-daily.appspot.com",
+    messagingSenderId: "15528160711"
+  }
+
   import ButtonCalendar from './ButtonCalendar'
+  import firebase from 'firebase'
 
   export default {
     name: 'news-paper',
     components: {
       ButtonCalendar
     },
+    created: function (){
+      firebase.initializeApp(config)
+
+      this.database = firebase.database()
+
+      let query = this.database.ref('newspaper/')
+
+      let tempResult
+
+      query.once("value")
+        .then((snapshot)=>{
+          // console.log(childSnapshot.key)
+          console.log(snapshot.val())
+
+          snapshot.forEach( (childSnapShot) =>{
+            console.log('key', childSnapShot.key)
+            console.log('val', childSnapShot.val())
+            this.tableData.push(childSnapShot.val())
+          })
+        })
+
+
+
+      // console.log('tableDAta', this.tableData)
+    },
     data: function () {
       return {
         selected: 2018,
-        colums: ['createDate', 'title'],
+        colums: ['date', 'title', 'studyyn'],
         tableData: [],
         options: {
           headings: {
-            createDate: 'Create Date',
-            title: '제목'
+            date: '날짜',
+            link: '링크',
+            title: '제목',
+            studyyn: '여부'
           },
           filterable: false
 
@@ -46,25 +95,39 @@
 </script>
 
 <style>
-  .newspaper-table thead th:nth-child(5){
-    display: none;
+  /*#news-paper {*/
+    /*width: 95%;*/
+    /*margin: 0 auto;*/
+  /*}*/
+
+  th:nth-child(3) {
+    text-align: center;
   }
 
-
-  .layer{ top:50%; left:40%;  height:100px; margin:0 auto;}
-  table{
-    border: 1px solid black;
-    table-layout: fixed;
-    width: 200px;
+  .VueTables__child-row-toggler {
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    display: block;
+    margin: auto;
+    text-align: center;
   }
 
-  th, td {
-    border: 1px solid black;
-    width: 100px;
+  .VueTables__child-row-toggler--closed::before {
+    content: "+";
   }
-  /*.centered { display: table; margin-left: auto; margin-right: auto; }*/
+
+  .VueTables__child-row-toggler--open::before {
+    content: "-";
+  }
 
 </style>
+
+<!--<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>-->
+<!--<script>-->
+
+
+<!--</script>-->
 
 <!--[ 만들기능 ]-->
  <!-- - 등록-->
