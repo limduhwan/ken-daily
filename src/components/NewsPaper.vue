@@ -9,6 +9,7 @@
         <br>
         <button-calendar></button-calendar>
       </div>
+      <div><button id="btnNewsPaper" @click="btnNewsPaperClick">추가</button></div>
     </div>
     <br>
     <div>
@@ -73,6 +74,11 @@
 
 
       // console.log('tableDAta', this.tableData)
+    },
+    methods: {
+      btnNewsPaperClick: function() {
+
+      }
     },
     data: function () {
       return {

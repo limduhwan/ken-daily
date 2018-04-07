@@ -20,7 +20,7 @@ new Vue({
   template: '<App/>',
   components: { App }
 })
-
+//npm install
 //npm install bootstrap
 //npm install vue-tables-2
 //npm install vue-nav-tabs
