@@ -33,17 +33,20 @@
 
 <script>
   // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyCDi2lA_VDjijGtojpxokaUkHRimcUXc0k",
-    authDomain: "ken-daily.firebaseapp.com",
-    databaseURL: "https://ken-daily.firebaseio.com",
-    projectId: "ken-daily",
-    storageBucket: "ken-daily.appspot.com",
-    messagingSenderId: "15528160711"
-  }
+  // var config = {
+  //   apiKey: "AIzaSyCDi2lA_VDjijGtojpxokaUkHRimcUXc0k",
+  //   authDomain: "ken-daily.firebaseapp.com",
+  //   databaseURL: "https://ken-daily.firebaseio.com",
+  //   projectId: "ken-daily",
+  //   storageBucket: "ken-daily.appspot.com",
+  //   messagingSenderId: "15528160711"
+  // }
+
+  // FireBase Setting
+  import firebase from 'firebase'
+  import Firebase_Config from '../config/Firebase_Config'
 
   import ButtonCalendar from './ButtonCalendar'
-  import firebase from 'firebase'
 
   export default {
     name: 'news-paper',
@@ -51,7 +54,7 @@
       ButtonCalendar
     },
     created: function (){
-      firebase.initializeApp(config)
+      // firebase.initializeApp(config)
 
       this.database = firebase.database()
 
@@ -62,16 +65,14 @@
       query.once("value")
         .then((snapshot)=>{
           // console.log(childSnapshot.key)
-          console.log(snapshot.val())
+          // console.log(snapshot.val())
 
           snapshot.forEach( (childSnapShot) =>{
-            console.log('key', childSnapShot.key)
-            console.log('val', childSnapShot.val())
+            // console.log('key', childSnapShot.key)
+            // console.log('val', childSnapShot.val())
             this.tableData.push(childSnapShot.val())
           })
         })
-
-
 
       // console.log('tableDAta', this.tableData)
     },

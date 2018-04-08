@@ -16,7 +16,7 @@
           Third tab content
         </v-tab>
         <v-tab title="스터디">
-
+          <study></study>
         </v-tab>
         <v-tab title="Links">
 
@@ -34,11 +34,13 @@
 
 <script>
   import NewsPaper from './components/NewsPaper'
+  import Study from './components/Study'
 
   export default {
     name: 'app',
     components: {
-      NewsPaper
+      NewsPaper,
+      Study
     }
   }
 </script>
