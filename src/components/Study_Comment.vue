@@ -13,8 +13,9 @@
 
         <div class="modal-body">
           <slot name="body">
-            <textArea rows="20" cols="45">{{comment}}</textArea>
+            <textArea rows="20" cols="45" @input='updateValue($event.target.value)'>{{comment}}</textArea>
           </slot>
+
         </div>
 
         <div class="modal-footer">
@@ -22,7 +23,7 @@
             <button class="modal-default-button" @click="closeAction">
               닫어
             </button>
-            <button class="modal-default-button" @click="closeAction">
+            <button class="modal-default-button" @click="updateComment">
               저장
             </button>
           </slot>
@@ -42,10 +43,28 @@
         props: ['showModal', 'closeAction', 'comment', 'clickedCommentDate'],
         created () {
           this.database = firebase.database()
-          let url = 'study/'+clickedCommentDate
-          database.ref.child(url).update({
-            "comment" : comment
-          })
+          // this.textAreaComment = this.comment
+        },
+        data: function() {
+          return {
+            textAreaComment: ''
+          }
+        },
+        methods: {
+          updateValue (value) {
+            this.textAreaComment = value.trim()
+          },
+          updateComment: function () {
+            this.database = firebase.database()
+
+            let url = 'study/'+this.clickedCommentDate
+            let query = this.database.ref(url)
+            query.update({
+              comment : this.textAreaComment
+            })
+
+            // this.showModal = false
+          }
         }
     }
 </script>
@@ -118,3 +137,4 @@
 </style>
 <!--&#45;&#45; 조회-->
 <!--&#45;&#45; 수정-->
+<!--코멘트 저장 후에 리프레쉬-->

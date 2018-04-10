@@ -66,7 +66,7 @@
           this.showModal = true
           this.comment = comment
           this.clickedCommentDate = date
-          console.log(this.clickedCommetDate)
+          console.log(this.clickedCommentDate)
         },
         closeCommentPopup () {
           this.showModal = false
