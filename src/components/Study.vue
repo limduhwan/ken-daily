@@ -5,7 +5,12 @@
         {{props.row.content}}
       </div>
       <a slot="title" slot-scope="props" target="_blank" :href="props.row.url">{{props.row.title}}</a>
+      <div slot="comment" slot-scope="props">
+        <button @click="btnCommentClick(props.row.date, props.row.comment)">코멘트</button>
+      </div>
     </v-client-table>
+    <!--<study-comment v-if="showModal" :showModal="showModal" :closeAction="closeCommentPopup"></study-comment>-->
+    <study-comment v-if="showModal" :showModal="showModal" :closeAction="closeCommentPopup" :comment="comment" :clickedCommentDate="clickedCommentDate"></study-comment>
   </div>
 </template>
 
@@ -13,9 +18,13 @@
   // FireBase Setting
   import firebase from 'firebase'
   import Firebase_Config from '../config/Firebase_Config'
+  import StudyComment from './Study_Comment'
 
   export default {
       name: "study",
+      components:{
+        StudyComment
+      },
       created: function() {
         this.database = firebase.database()
 
@@ -37,17 +46,31 @@
       },
       data: function() {
           return {
-            columns: ['date', 'title', 'record'],
+            showModal: false,
+            clickedCommentDate: '',
+            columns: ['date', 'title', 'comment'],
             tableData: [],
             options: {
               headings: {
                 date:'Date',
                 title: '제목',
-                record: '녹음'
+                comment: '코멘트'
               },
               filterable: false
             }
           }
+      },
+      methods: {
+        btnCommentClick: function(date, comment) {
+          // alert(date)
+          this.showModal = true
+          this.comment = comment
+          this.clickedCommentDate = date
+          console.log(this.clickedCommetDate)
+        },
+        closeCommentPopup () {
+          this.showModal = false
+        }
       }
     }
 </script>
