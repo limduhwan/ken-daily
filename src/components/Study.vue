@@ -10,7 +10,14 @@
       </div>
     </v-client-table>
     <!--<study-comment v-if="showModal" :showModal="showModal" :closeAction="closeCommentPopup"></study-comment>-->
-    <study-comment v-if="showModal" :showModal="showModal" :closeAction="closeCommentPopup" :comment="comment" :clickedCommentDate="clickedCommentDate"></study-comment>
+    <study-comment v-if="showModal"
+                   :showModal="showModal"
+                   :closeAction="closeCommentPopup"
+                   :comment="comment"
+                   :clickedCommentDate="clickedCommentDate"
+                   :getList="getList"
+    >
+    </study-comment>
   </div>
 </template>
 
@@ -25,24 +32,8 @@
       components:{
         StudyComment
       },
-      created: function() {
-        this.database = firebase.database()
-
-        let query = this.database.ref('study/')
-
-        let tempResult
-
-        query.once("value")
-          .then((snapshot)=>{
-            // console.log(childSnapshot.key)
-            console.log(snapshot.val())
-
-            snapshot.forEach( (childSnapShot) =>{
-              console.log('key', childSnapShot.key)
-              console.log('val', childSnapShot.val())
-              this.tableData.push(childSnapShot.val())
-            })
-          })
+      mounted: function() {
+        this.getList()
       },
       data: function() {
           return {
@@ -61,6 +52,26 @@
           }
       },
       methods: {
+        getList () {
+          console.log('getList')
+          this.database = firebase.database()
+
+          let query = this.database.ref('study/').orderByKey();
+
+          let tempResult
+
+          query.once("value")
+            .then((snapshot)=>{
+              // console.log(childSnapshot.key)
+              console.log(snapshot.val())
+
+              snapshot.forEach( (childSnapShot) =>{
+                console.log('key', childSnapShot.key)
+                console.log('val', childSnapShot.val())
+                this.tableData.push(childSnapShot.val())
+              })
+            })
+        },
         btnCommentClick: function(date, comment) {
           // alert(date)
           this.showModal = true
@@ -69,6 +80,7 @@
           console.log(this.clickedCommentDate)
         },
         closeCommentPopup () {
+          console.log('closeCommentPopu[')
           this.showModal = false
         }
       }

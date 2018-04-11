@@ -38,36 +38,36 @@
   import firebase from 'firebase'
   import Firebase_Config from '../config/Firebase_Config'
 
-    export default {
-        name: "study_commnet",
-        props: ['showModal', 'closeAction', 'comment', 'clickedCommentDate','getList'],
-        created () {
-          this.database = firebase.database()
-          // this.textAreaComment = this.comment
-        },
-        data: function() {
-          return {
-            textAreaComment: ''
-          }
-        },
-        methods: {
-          updateValue (value) {
-            this.textAreaComment = value.trim()
-          },
-          updateComment: function () {
-            this.database = firebase.database()
+  export default {
+    name: "newspaper_comment",
+    props: ['showModal', 'closeAction', 'comment', 'clickedCommentDate','getList'],
+    created () {
+      this.database = firebase.database()
+      // this.textAreaComment = this.comment
+    },
+    data: function() {
+      return {
+        textAreaComment: ''
+      }
+    },
+    methods: {
+      updateValue (value) {
+        this.textAreaComment = value.trim()
+      },
+      updateComment: function () {
+        this.database = firebase.database()
 
-            let url = 'study/'+this.clickedCommentDate
-            let query = this.database.ref(url)
-            query.update({
-              comment : this.textAreaComment
-            })
+        let url = 'study/'+this.clickedCommentDate
+        let query = this.database.ref(url)
+        query.update({
+          comment : this.textAreaComment
+        })
 
-            // this.closeAction
-            // console.log(this.getList)
-          }
-        }
+        // this.closeAction
+        // console.log(this.getList)
+      }
     }
+  }
 </script>
 
 <style scoped>

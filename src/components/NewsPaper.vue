@@ -20,14 +20,18 @@
         <a slot="title" slot-scope="props" target="_blank" :href="props.row.link">
           {{props.row.title}}
         </a>
-        <div slot="studyyn" slot-scope="props">
-          <select v-model="props.row.studyyn">
-            <option>Y</option>
-            <option>N</option>
-          </select>
+        <div slot="comment" slot-scope="props">
+          <button @click="btnCommentClick(props.row.date, props.row.comment)">.</button>
         </div>
+        <!--<div slot="studyyn" slot-scope="props">-->
+          <!--<select v-model="props.row.studyyn">-->
+            <!--<option>Y</option>-->
+            <!--<option>N</option>-->
+          <!--</select>-->
+        <!--</div>-->
       </v-client-table>
     </div>
+    <news-paper-comment></news-paper-comment>
   </div>
 </template>
 
@@ -47,11 +51,13 @@
   import Firebase_Config from '../config/Firebase_Config'
 
   import ButtonCalendar from './ButtonCalendar'
+  import NewsPaperComment from './NewsPaper_Comment'
 
   export default {
     name: 'news-paper',
     components: {
-      ButtonCalendar
+      ButtonCalendar,
+      NewsPaperComment
     },
     created: function (){
       // firebase.initializeApp(config)
@@ -79,19 +85,27 @@
     methods: {
       btnNewsPaperClick: function() {
 
+      },
+      btnCommentClick: function(date, comment) {
+        // alert(date)
+        this.showModal = true
+        this.comment = comment
+        this.clickedCommentDate = date
+        console.log(this.clickedCommentDate)
       }
     },
     data: function () {
       return {
         selected: 2018,
-        colums: ['date', 'title', 'studyyn'],
+        colums: ['date', 'title', 'comment'],
         tableData: [],
         options: {
           headings: {
             date: '날짜',
             link: '링크',
             title: '제목',
-            studyyn: '여부'
+            studyyn: '여부',
+            comment: ''
           },
           filterable: false
 
