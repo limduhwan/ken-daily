@@ -89,10 +89,6 @@
     methods: {
       btnNewsPaperRegisterClick () {
 
-          this.objectModalDataNewsPaper.content = '1111'
-          this.objectModalDataNewsPaper.title = '2222'
-          this.objectModalDataNewsPaper.link = '3333'
-
           this.objectModalDataNewsPaper.month ='44444'
           this.objectModalDataNewsPaper.date ='4'
           this.objectModalDataNewsPaper.study ='55555'

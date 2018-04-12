@@ -8,12 +8,17 @@
         <div class="modal-header">
           <slot name="header">
             저장을 하자
+            <select v-model="selectedDay">
+              <option v-for="day in getLastDay" >
+                {{day}}
+              </option>
+            </select>
           </slot>
         </div>
 
         <div class="modal-body">
           <slot name="body">
-            Title <input type="text" width="100%"><br>
+            Title <input type="text" width="100%">{{title}}<br>
             Link <input tpye="text"><br>
           Content <textArea rows="15" cols="45"></textArea>
           </slot>
@@ -41,25 +46,40 @@
 
   export default {
     name: 'newspaper_register',
-    props: ['showModal', 'closeAction', 'objectModalDataNewsPaper'],
+    props: ['showModal', 'closeAction', 'modalDataNewsPaper'],
+    data : function() {
+      return {
+        cal: new Date(),
+        selectedDay: '',
+        title: '',
+        content: '',
+        link: ''
+      }
+    },
+    computed: {
+      getLastDay : function(){
+        let lastDay = ( new Date( this.cal.getFullYear(), this.cal.getMonth()+1, 0) ).getDate();
+        console.log(lastDay)
+        return lastDay
+      }
+
+    },
     methods: {
       saveRegister : function(){
         this.database = firebase.database()
+        // console.log('this.modalDataNewsPaper', this.modalDataNewsPaper)
 
-        console.log('this.objectModalDataNewsPaper', this.objectModalDataNewsPaper)
-        console.log(this.objectModalDataNewsPaper.content)
-        console.log(this.objectModalDataNewsPaper.title)
-        //
-        // this.database.ref('newspaper/' + '180412').set({
-        //   content : '1111',
-        //   title : '2',
-        //   link :'3',
-        //
-        //   month :'4',
-        //   date :'4',
-        //   study :'5',
-        //   comment : '6'
-        // })
+        // alert(this.selectedDay)
+        this.database.ref('newspaper/' + '180412').set({
+          content : this.content,
+          title : this.title,
+          link : this.link,
+
+          // month : this.cal.getMonth()+1,
+          // date : this.modalDataNewsPaper.date,
+          study : 'N',
+          comment : ''
+        })
 
       }
     }
