@@ -9,7 +9,7 @@
         <br>
         <button-calendar></button-calendar>
       </div>
-      <div><button id="btnNewsPaper" @click="btnNewsPaperClick">추가</button></div>
+      <div><button id="btnNewsPaper" @click="btnNewsPaperRegisterClick">추가</button></div>
     </div>
     <br>
     <div>
@@ -31,36 +31,40 @@
         <!--</div>-->
       </v-client-table>
     </div>
-    <news-paper-comment></news-paper-comment>
+    <news-paper-comment
+      v-if="showModalComment"
+      :showModal="showModalComment"
+      :closeAction="closeCommentPopup"
+    ></news-paper-comment>
+    <news-paper-register
+      v-if="showModalRegister"
+      :showModal="showModalRegister"
+      :closeAction="closeRegisterPopup"
+      :modalDataNewsPaper="objectModalDataNewsPaper"
+    ></news-paper-register>
+    <!--<news-paper-register></news-paper-register>-->
   </div>
 </template>
 
 <script>
-  // Initialize Firebase
-  // var config = {
-  //   apiKey: "AIzaSyCDi2lA_VDjijGtojpxokaUkHRimcUXc0k",
-  //   authDomain: "ken-daily.firebaseapp.com",
-  //   databaseURL: "https://ken-daily.firebaseio.com",
-  //   projectId: "ken-daily",
-  //   storageBucket: "ken-daily.appspot.com",
-  //   messagingSenderId: "15528160711"
-  // }
-
   // FireBase Setting
   import firebase from 'firebase'
   import Firebase_Config from '../config/Firebase_Config'
 
   import ButtonCalendar from './ButtonCalendar'
   import NewsPaperComment from './NewsPaper_Comment'
+  import NewsPaperRegister from './NewsPaper_Register'
 
   export default {
     name: 'news-paper',
     components: {
       ButtonCalendar,
-      NewsPaperComment
+      NewsPaperComment,
+      NewsPaperRegister
     },
     created: function (){
       // firebase.initializeApp(config)
+      this.showModalRegister = true;
 
       this.database = firebase.database()
 
@@ -83,19 +87,38 @@
       // console.log('tableDAta', this.tableData)
     },
     methods: {
-      btnNewsPaperClick: function() {
+      btnNewsPaperRegisterClick () {
 
+          this.objectModalDataNewsPaper.content = '1111'
+          this.objectModalDataNewsPaper.title = '2222'
+          this.objectModalDataNewsPaper.link = '3333'
+
+          this.objectModalDataNewsPaper.month ='44444'
+          this.objectModalDataNewsPaper.date ='4'
+          this.objectModalDataNewsPaper.study ='55555'
+          this.objectModalDataNewsPaper.comment = '66666'
+
+        this.showModalRegister = true;
       },
       btnCommentClick: function(date, comment) {
         // alert(date)
-        this.showModal = true
+        this.showModalComment = true
         this.comment = comment
         this.clickedCommentDate = date
-        console.log(this.clickedCommentDate)
+        // console.log(this.clickedCommentDate)
+      },
+      closeCommentPopup () {
+        this.showModalComment = false
+      },
+      closeRegisterPopup () {
+        this.showModalRegister = false
       }
     },
     data: function () {
       return {
+        showModalComment: false,
+        showModalRegister: false,
+        objectModalDataNewsPaper: {},
         selected: 2018,
         colums: ['date', 'title', 'comment'],
         tableData: [],

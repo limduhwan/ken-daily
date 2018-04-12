@@ -12,9 +12,9 @@
         </div>
 
         <div class="modal-body">
-          <slot name="body">
-            <textArea rows="20" cols="45" @input='updateValue($event.target.value)'>{{comment}}</textArea>
-          </slot>
+          <!--<slot name="body">-->
+            <!--<textArea rows="20" cols="45" @input='updateValue($event.target.value)'>{{comment}}</textArea>-->
+          <!--</slot>-->
 
         </div>
 
@@ -23,7 +23,7 @@
             <button class="modal-default-button" @click="closeAction">
               닫어
             </button>
-            <button class="modal-default-button" @click="{updateComment}">
+            <button class="modal-default-button" >
               저장
             </button>
           </slot>

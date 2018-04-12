@@ -53,7 +53,7 @@
       },
       methods: {
         getList () {
-          console.log('getList')
+          // console.log('getList')
           this.database = firebase.database()
 
           let query = this.database.ref('study/').orderByKey();
@@ -63,11 +63,11 @@
           query.once("value")
             .then((snapshot)=>{
               // console.log(childSnapshot.key)
-              console.log(snapshot.val())
+              // console.log(snapshot.val())
 
               snapshot.forEach( (childSnapShot) =>{
-                console.log('key', childSnapShot.key)
-                console.log('val', childSnapShot.val())
+                // console.log('key', childSnapShot.key)
+                // console.log('val', childSnapShot.val())
                 this.tableData.push(childSnapShot.val())
               })
             })
@@ -77,10 +77,10 @@
           this.showModal = true
           this.comment = comment
           this.clickedCommentDate = date
-          console.log(this.clickedCommentDate)
+          // console.log(this.clickedCommentDate)
         },
         closeCommentPopup () {
-          console.log('closeCommentPopu[')
+          // console.log('closeCommentPopu[')
           this.showModal = false
         }
       }
