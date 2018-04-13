@@ -13,7 +13,7 @@
 
         <div class="modal-body">
           <slot name="body">
-            <textArea rows="20" cols="45" @input='updateValue($event.target.value)'>{{comment}}</textArea>
+            <textArea rows="20" cols="35" @input='updateValue($event.target.value)'>{{comment}}</textArea>
           </slot>
 
         </div>
@@ -62,9 +62,6 @@
             query.update({
               comment : this.textAreaComment
             })
-
-            // this.closeAction
-            // console.log(this.getList)
           }
         }
     }
@@ -89,7 +86,7 @@
   }
 
   .modal-container {
-    width: 500px;
+    width: 400px;
     height: 700px;
     margin: 0px auto;
     padding: 20px 30px;

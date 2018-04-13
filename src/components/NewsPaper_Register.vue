@@ -18,9 +18,9 @@
 
         <div class="modal-body">
           <slot name="body">
-            Title <input type="text" width="100%">{{title}}<br>
-            Link <input tpye="text"><br>
-          Content <textArea rows="15" cols="45"></textArea>
+            Title <input type="text" width="100%" v-model="title"><br>
+            Link <input tpye="text" v-model="link"><br>
+          Content <textArea rows="15" cols="35" @input="updateValue($event.target.value)"></textArea>
           </slot>
         </div>
 
@@ -50,37 +50,39 @@
     data : function() {
       return {
         cal: new Date(),
-        selectedDay: '',
+        selectedDay: new Date().getDate(),
         title: '',
-        content: '',
+        textAreaComment: '',
         link: ''
       }
     },
     computed: {
       getLastDay : function(){
         let lastDay = ( new Date( this.cal.getFullYear(), this.cal.getMonth()+1, 0) ).getDate();
-        console.log(lastDay)
         return lastDay
       }
 
     },
     methods: {
+      updateValue (value) {
+        this.textAreaComment = value.trim()
+      },
       saveRegister : function(){
         this.database = firebase.database()
-        // console.log('this.modalDataNewsPaper', this.modalDataNewsPaper)
 
-        // alert(this.selectedDay)
-        this.database.ref('newspaper/' + '180412').set({
-          content : this.content,
+        let getMonth = (this.cal.getMonth()+1).toString().length === 1 ? '0'+(this.cal.getMonth()+1).toString() : (this.cal.getMonth()+1).toString()
+        let key = this.cal.getFullYear().toString().substr(2,2)+getMonth+this.selectedDay
+
+        this.database.ref('newspaper/' + key).set({
+          content : this.textAreaComment,
           title : this.title,
           link : this.link,
 
-          // month : this.cal.getMonth()+1,
-          // date : this.modalDataNewsPaper.date,
+          month : getMonth,
+          date : key,
           study : 'N',
           comment : ''
         })
-
       }
     }
   }
@@ -105,7 +107,7 @@
   }
 
   .modal-container {
-    width: 500px;
+    width: 400px;
     height: 700px;
     margin: 0px auto;
     padding: 20px 30px;

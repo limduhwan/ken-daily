@@ -12,9 +12,9 @@
         </div>
 
         <div class="modal-body">
-          <!--<slot name="body">-->
-            <!--<textArea rows="20" cols="45" @input='updateValue($event.target.value)'>{{comment}}</textArea>-->
-          <!--</slot>-->
+          <slot name="body">
+            <textArea rows="20" cols="35" @input='updateValue($event.target.value)'>{{modalDataNewsPaperComment.comment}}</textArea>
+          </slot>
 
         </div>
 
@@ -23,7 +23,7 @@
             <button class="modal-default-button" @click="closeAction">
               닫어
             </button>
-            <button class="modal-default-button" >
+            <button class="modal-default-button" @click="updateComment">
               저장
             </button>
           </slot>
@@ -40,7 +40,7 @@
 
   export default {
     name: "newspaper_comment",
-    props: ['showModal', 'closeAction', 'comment', 'clickedCommentDate','getList'],
+    props: ['showModal', 'closeAction','getList', 'modalDataNewsPaperComment'],
     created () {
       this.database = firebase.database()
       // this.textAreaComment = this.comment
@@ -57,14 +57,13 @@
       updateComment: function () {
         this.database = firebase.database()
 
-        let url = 'study/'+this.clickedCommentDate
+        let url = 'newspaper/'+this.modalDataNewsPaperComment.date
         let query = this.database.ref(url)
         query.update({
           comment : this.textAreaComment
+
         })
 
-        // this.closeAction
-        // console.log(this.getList)
       }
     }
   }
@@ -89,7 +88,7 @@
   }
 
   .modal-container {
-    width: 500px;
+    width: 400px;
     height: 700px;
     margin: 0px auto;
     padding: 20px 30px;

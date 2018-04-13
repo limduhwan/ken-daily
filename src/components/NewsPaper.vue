@@ -35,6 +35,7 @@
       v-if="showModalComment"
       :showModal="showModalComment"
       :closeAction="closeCommentPopup"
+      :modalDataNewsPaperComment="ObjectModalDataNewsPaperComment"
     ></news-paper-comment>
     <news-paper-register
       v-if="showModalRegister"
@@ -64,7 +65,7 @@
     },
     created: function (){
       // firebase.initializeApp(config)
-      this.showModalRegister = true;
+      // this.showModalRegister = true;
 
       this.database = firebase.database()
 
@@ -74,8 +75,6 @@
 
       query.once("value")
         .then((snapshot)=>{
-          // console.log(childSnapshot.key)
-          // console.log(snapshot.val())
 
           snapshot.forEach( (childSnapShot) =>{
             // console.log('key', childSnapShot.key)
@@ -97,11 +96,10 @@
         this.showModalRegister = true;
       },
       btnCommentClick: function(date, comment) {
-        // alert(date)
+        this.ObjectModalDataNewsPaperComment.ttt = 'ttt'
+        this.ObjectModalDataNewsPaperComment.comment = comment
+        this.ObjectModalDataNewsPaperComment.date = date
         this.showModalComment = true
-        this.comment = comment
-        this.clickedCommentDate = date
-        // console.log(this.clickedCommentDate)
       },
       closeCommentPopup () {
         this.showModalComment = false
@@ -115,6 +113,7 @@
         showModalComment: false,
         showModalRegister: false,
         objectModalDataNewsPaper: {},
+        ObjectModalDataNewsPaperComment: {},
         selected: 2018,
         colums: ['date', 'title', 'comment'],
         tableData: [],

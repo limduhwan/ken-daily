@@ -20,9 +20,9 @@
     name: 'button-calendar',
     created () {
       let cal = new Date()
-      console.log('cal get full year', cal.getFullYear())
-      console.log('cal get month', cal.getMonth()+1)
-      console.log('cal get iso string', cal.toISOString())
+      // console.log('cal get full year', cal.getFullYear())
+      // console.log('cal get month', cal.getMonth()+1)
+      // console.log('cal get iso string', cal.toISOString())
     }
   }
 </script>
