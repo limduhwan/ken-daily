@@ -20,7 +20,7 @@
           <slot name="body">
             Title <input type="text" width="100%" v-model="title"><br>
             Link <input tpye="text" v-model="link"><br>
-          Content <textArea rows="15" cols="35" @input="updateValue($event.target.value)"></textArea>
+          Content <textArea rows="13" cols="35" @input="updateValue($event.target.value)"></textArea>
           </slot>
         </div>
 
@@ -73,7 +73,8 @@
         let getMonth = (this.cal.getMonth()+1).toString().length === 1 ? '0'+(this.cal.getMonth()+1).toString() : (this.cal.getMonth()+1).toString()
         let key = this.cal.getFullYear().toString().substr(2,2)+getMonth+this.selectedDay
 
-        this.database.ref('newspaper/' + key).set({
+        let month = this.cal.getFullYear().toString().substr(2,2)+getMonth
+        this.database.ref('newspaper/' + month+'/'+key).set({
           content : this.textAreaComment,
           title : this.title,
           link : this.link,
@@ -108,7 +109,7 @@
 
   .modal-container {
     width: 400px;
-    height: 700px;
+    height: 600px;
     margin: 0px auto;
     padding: 20px 30px;
     background-color: #fff;
@@ -154,12 +155,3 @@
     transform: scale(1.1);
   }
 </style>
-
-<!--Content-->
-<!--Title-->
-<!--Link-->
-
-<!--Month-->
-<!--Date-->
-<!--Study-->
-<!--Comment ‘’-->

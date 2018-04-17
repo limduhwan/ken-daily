@@ -55,6 +55,7 @@
   import ButtonCalendar from './ButtonCalendar'
   import NewsPaperComment from './NewsPaper_Comment'
   import NewsPaperRegister from './NewsPaper_Register'
+  import Utils from '../script/utils'
 
   export default {
     name: 'news-paper',
@@ -67,9 +68,16 @@
       // firebase.initializeApp(config)
       // this.showModalRegister = true;
 
+      //공통함수로 빼자
+      // console.log('Utils.getMonth', Utils.getMonth())
+
       this.database = firebase.database()
 
-      let query = this.database.ref('newspaper/')
+      let getMonth = (this.cal.getMonth()+1).toString().length === 1 ? '0'+(this.cal.getMonth()+1).toString() : (this.cal.getMonth()+1).toString()
+
+      let month = this.cal.getFullYear().toString().substr(2,2)+getMonth
+
+      let query = this.database.ref('newspaper/' + month+'/')
 
       let tempResult
 
@@ -88,11 +96,6 @@
     methods: {
       btnNewsPaperRegisterClick () {
 
-          this.objectModalDataNewsPaper.month ='44444'
-          this.objectModalDataNewsPaper.date ='4'
-          this.objectModalDataNewsPaper.study ='55555'
-          this.objectModalDataNewsPaper.comment = '66666'
-
         this.showModalRegister = true;
       },
       btnCommentClick: function(date, comment) {
@@ -110,6 +113,7 @@
     },
     data: function () {
       return {
+        cal: new Date(),
         showModalComment: false,
         showModalRegister: false,
         objectModalDataNewsPaper: {},
@@ -161,20 +165,3 @@
   }
 
 </style>
-
-<!--<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>-->
-<!--<script>-->
-
-
-<!--</script>-->
-
-<!--[ 만들기능 ]-->
- <!-- - 등록-->
- <!-- - 수정-->
- <!-- - 삭제-->
- <!-- - 클릭하면 링크 이동 -->
- <!-- - 링크가 차일드에서 생성-->
- <!-- - 최신 등록일 부터 조회-->
-
-<!--[ 리팩토링 해야할 것 ]-->
-
