@@ -13,7 +13,7 @@
 
         <div class="modal-body">
           <slot name="body">
-            <textArea rows="20" cols="35" @input='updateValue($event.target.value)'>{{modalDataNewsPaperComment.comment}}</textArea>
+            <textArea rows="13" cols="35" @input='updateValue($event.target.value)'>{{modalDataNewsPaperComment.comment}}</textArea>
           </slot>
 
         </div>
@@ -47,6 +47,7 @@
     },
     data: function() {
       return {
+        cal: new Date(),
         textAreaComment: ''
       }
     },
@@ -57,7 +58,12 @@
       updateComment: function () {
         this.database = firebase.database()
 
-        let url = 'newspaper/'+this.modalDataNewsPaperComment.date
+        let getMonth = (this.cal.getMonth()+1).toString().length === 1 ? '0'+(this.cal.getMonth()+1).toString() : (this.cal.getMonth()+1).toString()
+        // let key = this.cal.getFullYear().toString().substr(2,2)+getMonth+this.selectedDay
+
+        let month = this.cal.getFullYear().toString().substr(2,2)+getMonth
+
+        let url = 'newspaper/'+month+'/'+this.modalDataNewsPaperComment.date
         let query = this.database.ref(url)
         query.update({
           comment : this.textAreaComment
@@ -89,7 +95,7 @@
 
   .modal-container {
     width: 400px;
-    height: 700px;
+    height: 600px;
     margin: 0px auto;
     padding: 20px 30px;
     background-color: #fff;

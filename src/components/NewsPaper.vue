@@ -1,21 +1,20 @@
 <template>
   <div>
     <div>
-      <div class="centered">
-        <select v-model="selected">
+      <div style="float: left; width: 15%; padding: 3px 0px 3px 0px;">
+        <select v-model="selectedYear">
           <option>2018</option>
           <option>2019</option>
         </select>
-        <br>
-        <button-calendar></button-calendar>
       </div>
-      <div><button id="btnNewsPaper" @click="btnNewsPaperRegisterClick">추가</button></div>
+      <button-calendar :currentMonth="currentMonth"></button-calendar>
+      <div style="float: left; width: 10%; padding: 3px 0px 3px 0px;"><button id="btnNewsPaper" @click="btnNewsPaperRegisterClick" class="fb7">Add</button></div>
     </div>
     <br>
     <div>
       <v-client-table :data="tableData" :columns="colums" :options="options">
         <div slot="child_row" slot-scope="props">
-          The Content is here {{props.row.content}}
+          {{props.row.content}}
         </div>
         <a slot="title" slot-scope="props" target="_blank" :href="props.row.link">
           {{props.row.title}}
@@ -23,12 +22,6 @@
         <div slot="comment" slot-scope="props">
           <button @click="btnCommentClick(props.row.date, props.row.comment)">.</button>
         </div>
-        <!--<div slot="studyyn" slot-scope="props">-->
-          <!--<select v-model="props.row.studyyn">-->
-            <!--<option>Y</option>-->
-            <!--<option>N</option>-->
-          <!--</select>-->
-        <!--</div>-->
       </v-client-table>
     </div>
     <news-paper-comment
@@ -113,12 +106,13 @@
     },
     data: function () {
       return {
+        currentMonth: (new Date().getMonth()+1),
         cal: new Date(),
         showModalComment: false,
         showModalRegister: false,
         objectModalDataNewsPaper: {},
         ObjectModalDataNewsPaperComment: {},
-        selected: 2018,
+        selectedYear: 2018,
         colums: ['date', 'title', 'comment'],
         tableData: [],
         options: {
@@ -162,6 +156,13 @@
 
   .VueTables__child-row-toggler--open::before {
     content: "-";
+  }
+
+  /* Image Button */
+  .fb7 {
+    background: #EBE3CD;
+    vertical-align:middle;
+    border: 1px solid #969184;
   }
 
 </style>

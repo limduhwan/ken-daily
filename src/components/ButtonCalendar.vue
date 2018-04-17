@@ -1,28 +1,31 @@
 <template>
-  <div class="centered">
-    <button class="button">1</button>
-    <button class="button">2</button>
-    <button class="button">3</button>
-    <button class="button">4</button>
-    <button class="button">5</button>
-    <button class="button">6</button>
-    <button class="button">7</button>
-    <button class="button">8</button>
-    <button class="button">9</button>
-    <button class="button">10</button>
-    <button class="button">11</button>
-    <button class="button">12</button>
+  <div style="float: left; width: 75%; padding: 3px 0px 3px 0px;">
+    <button v-for="month in months" @click="btnMonthClick" :class="[month===currentMonth ? 'button' : '' ]">{{month}}</button>
   </div>
 </template>
 
 <script>
   export default {
     name: 'button-calendar',
+    props: ['currentMonth'],
     created () {
       let cal = new Date()
+      console.log('this.currentMonth', this.currentMonth)
       // console.log('cal get full year', cal.getFullYear())
       // console.log('cal get month', cal.getMonth()+1)
       // console.log('cal get iso string', cal.toISOString())
+    },
+    methods:{
+      btnMonthClick: function(event){
+        console.log(event.target.textContent)
+      }
+    },
+    data: function(){
+      return{
+        months: 12,
+        // btnMonthData: (new Date().getMonth()+1).toString()
+        btnMonthData: ''
+      }
     }
   }
 </script>
@@ -32,10 +35,10 @@
     background-color: #4CAF50; /* Green */
     border: none;
     color: white;
-    padding: 10px 10x;
+    padding: 15px 15x;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 9px;
+    font-size: 18px;
   }
 </style>
