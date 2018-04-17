@@ -9,7 +9,7 @@
         <br>
         <button-calendar></button-calendar>
       </div>
-      <div><button id="btnNewsPaper" @click="btnNewsPaperClick">추가</button></div>
+      <div><button id="btnNewsPaper" @click="btnNewsPaperRegisterClick">추가</button></div>
     </div>
     <br>
     <div>
@@ -20,41 +20,52 @@
         <a slot="title" slot-scope="props" target="_blank" :href="props.row.link">
           {{props.row.title}}
         </a>
-        <div slot="studyyn" slot-scope="props">
-          <select v-model="props.row.studyyn">
-            <option>Y</option>
-            <option>N</option>
-          </select>
+        <div slot="comment" slot-scope="props">
+          <button @click="btnCommentClick(props.row.date, props.row.comment)">.</button>
         </div>
+        <!--<div slot="studyyn" slot-scope="props">-->
+          <!--<select v-model="props.row.studyyn">-->
+            <!--<option>Y</option>-->
+            <!--<option>N</option>-->
+          <!--</select>-->
+        <!--</div>-->
       </v-client-table>
     </div>
+    <news-paper-comment
+      v-if="showModalComment"
+      :showModal="showModalComment"
+      :closeAction="closeCommentPopup"
+      :modalDataNewsPaperComment="ObjectModalDataNewsPaperComment"
+    ></news-paper-comment>
+    <news-paper-register
+      v-if="showModalRegister"
+      :showModal="showModalRegister"
+      :closeAction="closeRegisterPopup"
+      :modalDataNewsPaper="objectModalDataNewsPaper"
+    ></news-paper-register>
+    <!--<news-paper-register></news-paper-register>-->
   </div>
 </template>
 
 <script>
-  // Initialize Firebase
-  // var config = {
-  //   apiKey: "AIzaSyCDi2lA_VDjijGtojpxokaUkHRimcUXc0k",
-  //   authDomain: "ken-daily.firebaseapp.com",
-  //   databaseURL: "https://ken-daily.firebaseio.com",
-  //   projectId: "ken-daily",
-  //   storageBucket: "ken-daily.appspot.com",
-  //   messagingSenderId: "15528160711"
-  // }
-
   // FireBase Setting
   import firebase from 'firebase'
   import Firebase_Config from '../config/Firebase_Config'
 
   import ButtonCalendar from './ButtonCalendar'
+  import NewsPaperComment from './NewsPaper_Comment'
+  import NewsPaperRegister from './NewsPaper_Register'
 
   export default {
     name: 'news-paper',
     components: {
-      ButtonCalendar
+      ButtonCalendar,
+      NewsPaperComment,
+      NewsPaperRegister
     },
     created: function (){
       // firebase.initializeApp(config)
+      // this.showModalRegister = true;
 
       this.database = firebase.database()
 
@@ -64,8 +75,6 @@
 
       query.once("value")
         .then((snapshot)=>{
-          // console.log(childSnapshot.key)
-          // console.log(snapshot.val())
 
           snapshot.forEach( (childSnapShot) =>{
             // console.log('key', childSnapShot.key)
@@ -77,21 +86,44 @@
       // console.log('tableDAta', this.tableData)
     },
     methods: {
-      btnNewsPaperClick: function() {
+      btnNewsPaperRegisterClick () {
 
+          this.objectModalDataNewsPaper.month ='44444'
+          this.objectModalDataNewsPaper.date ='4'
+          this.objectModalDataNewsPaper.study ='55555'
+          this.objectModalDataNewsPaper.comment = '66666'
+
+        this.showModalRegister = true;
+      },
+      btnCommentClick: function(date, comment) {
+        this.ObjectModalDataNewsPaperComment.ttt = 'ttt'
+        this.ObjectModalDataNewsPaperComment.comment = comment
+        this.ObjectModalDataNewsPaperComment.date = date
+        this.showModalComment = true
+      },
+      closeCommentPopup () {
+        this.showModalComment = false
+      },
+      closeRegisterPopup () {
+        this.showModalRegister = false
       }
     },
     data: function () {
       return {
+        showModalComment: false,
+        showModalRegister: false,
+        objectModalDataNewsPaper: {},
+        ObjectModalDataNewsPaperComment: {},
         selected: 2018,
-        colums: ['date', 'title', 'studyyn'],
+        colums: ['date', 'title', 'comment'],
         tableData: [],
         options: {
           headings: {
             date: '날짜',
             link: '링크',
             title: '제목',
-            studyyn: '여부'
+            studyyn: '여부',
+            comment: ''
           },
           filterable: false
 

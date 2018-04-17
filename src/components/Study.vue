@@ -5,7 +5,19 @@
         {{props.row.content}}
       </div>
       <a slot="title" slot-scope="props" target="_blank" :href="props.row.url">{{props.row.title}}</a>
+      <div slot="comment" slot-scope="props">
+        <button @click="btnCommentClick(props.row.date, props.row.comment)">코멘트</button>
+      </div>
     </v-client-table>
+    <!--<study-comment v-if="showModal" :showModal="showModal" :closeAction="closeCommentPopup"></study-comment>-->
+    <study-comment v-if="showModal"
+                   :showModal="showModal"
+                   :closeAction="closeCommentPopup"
+                   :comment="comment"
+                   :clickedCommentDate="clickedCommentDate"
+                   :getList="getList"
+    >
+    </study-comment>
   </div>
 </template>
 
@@ -13,41 +25,56 @@
   // FireBase Setting
   import firebase from 'firebase'
   import Firebase_Config from '../config/Firebase_Config'
+  import StudyComment from './Study_Comment'
 
   export default {
       name: "study",
-      created: function() {
-        this.database = firebase.database()
-
-        let query = this.database.ref('study/')
-
-        let tempResult
-
-        query.once("value")
-          .then((snapshot)=>{
-            // console.log(childSnapshot.key)
-            console.log(snapshot.val())
-
-            snapshot.forEach( (childSnapShot) =>{
-              console.log('key', childSnapShot.key)
-              console.log('val', childSnapShot.val())
-              this.tableData.push(childSnapShot.val())
-            })
-          })
+      components:{
+        StudyComment
+      },
+      mounted: function() {
+        this.getList()
       },
       data: function() {
           return {
-            columns: ['date', 'title', 'record'],
+            showModal: false,
+            clickedCommentDate: '',
+            columns: ['date', 'title', 'comment'],
             tableData: [],
             options: {
               headings: {
                 date:'Date',
                 title: '제목',
-                record: '녹음'
+                comment: '코멘트'
               },
               filterable: false
             }
           }
+      },
+      methods: {
+        getList () {
+          this.database = firebase.database()
+
+          let query = this.database.ref('study/').orderByKey();
+
+          query.once("value")
+            .then((snapshot)=>{
+
+              snapshot.forEach( (childSnapShot) =>{
+                // console.log('key', childSnapShot.key)
+                // console.log('val', childSnapShot.val())
+                this.tableData.push(childSnapShot.val())
+              })
+            })
+        },
+        btnCommentClick: function(date, comment) {
+          this.showModal = true
+          this.comment = comment
+          this.clickedCommentDate = date
+        },
+        closeCommentPopup () {
+          this.showModal = false
+        }
       }
     }
 </script>

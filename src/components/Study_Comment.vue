@@ -7,21 +7,15 @@
 
         <div class="modal-header">
           <slot name="header">
-            저장을 하자
-            <select v-model="selectedDay">
-              <option v-for="day in getLastDay" >
-                {{day}}
-              </option>
-            </select>
+            Comment를 남기자
           </slot>
         </div>
 
         <div class="modal-body">
           <slot name="body">
-            Title <input type="text" width="100%" v-model="title"><br>
-            Link <input tpye="text" v-model="link"><br>
-          Content <textArea rows="15" cols="35" @input="updateValue($event.target.value)"></textArea>
+            <textArea rows="20" cols="35" @input='updateValue($event.target.value)'>{{comment}}</textArea>
           </slot>
+
         </div>
 
         <div class="modal-footer">
@@ -29,7 +23,7 @@
             <button class="modal-default-button" @click="closeAction">
               닫어
             </button>
-            <button class="modal-default-button" @click="saveRegister">
+            <button class="modal-default-button" @click="{updateComment}">
               저장
             </button>
           </slot>
@@ -44,48 +38,33 @@
   import firebase from 'firebase'
   import Firebase_Config from '../config/Firebase_Config'
 
-  export default {
-    name: 'newspaper_register',
-    props: ['showModal', 'closeAction', 'modalDataNewsPaper'],
-    data : function() {
-      return {
-        cal: new Date(),
-        selectedDay: new Date().getDate(),
-        title: '',
-        textAreaComment: '',
-        link: ''
-      }
-    },
-    computed: {
-      getLastDay : function(){
-        let lastDay = ( new Date( this.cal.getFullYear(), this.cal.getMonth()+1, 0) ).getDate();
-        return lastDay
-      }
+    export default {
+        name: "study_commnet",
+        props: ['showModal', 'closeAction', 'comment', 'clickedCommentDate','getList'],
+        created () {
+          this.database = firebase.database()
+          // this.textAreaComment = this.comment
+        },
+        data: function() {
+          return {
+            textAreaComment: ''
+          }
+        },
+        methods: {
+          updateValue (value) {
+            this.textAreaComment = value.trim()
+          },
+          updateComment: function () {
+            this.database = firebase.database()
 
-    },
-    methods: {
-      updateValue (value) {
-        this.textAreaComment = value.trim()
-      },
-      saveRegister : function(){
-        this.database = firebase.database()
-
-        let getMonth = (this.cal.getMonth()+1).toString().length === 1 ? '0'+(this.cal.getMonth()+1).toString() : (this.cal.getMonth()+1).toString()
-        let key = this.cal.getFullYear().toString().substr(2,2)+getMonth+this.selectedDay
-
-        this.database.ref('newspaper/' + key).set({
-          content : this.textAreaComment,
-          title : this.title,
-          link : this.link,
-
-          month : getMonth,
-          date : key,
-          study : 'N',
-          comment : ''
-        })
-      }
+            let url = 'study/'+this.clickedCommentDate
+            let query = this.database.ref(url)
+            query.update({
+              comment : this.textAreaComment
+            })
+          }
+        }
     }
-  }
 </script>
 
 <style scoped>
@@ -154,12 +133,6 @@
     transform: scale(1.1);
   }
 </style>
-
-<!--Content-->
-<!--Title-->
-<!--Link-->
-
-<!--Month-->
-<!--Date-->
-<!--Study-->
-<!--Comment ‘’-->
+<!--&#45;&#45; 조회-->
+<!--&#45;&#45; 수정-->
+<!--코멘트 저장 후에 리프레쉬-->
