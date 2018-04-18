@@ -8,7 +8,7 @@
         </select>
       </div>
       <button-calendar :currentMonth="currentMonth"></button-calendar>
-      <div style="float: left; width: 10%; padding: 3px 0px 3px 0px;"><button id="btnNewsPaper" @click="btnNewsPaperRegisterClick" class="fb7">Add</button></div>
+      <div style="float: right;"><button id="btnNewsPaper" @click="btnNewsPaperRegisterClick" class="fb7">Add</button></div>
     </div>
     <br>
     <div>

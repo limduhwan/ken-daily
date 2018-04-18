@@ -13,7 +13,7 @@
 
         <div class="modal-body">
           <slot name="body">
-            <textArea rows="13" cols="35" @input='updateValue($event.target.value)'>{{modalDataNewsPaperComment.comment}}</textArea>
+            <textArea rows="15" cols="35" @input='updateValue($event.target.value)'>{{modalDataNewsPaperComment.comment}}</textArea>
           </slot>
 
         </div>
