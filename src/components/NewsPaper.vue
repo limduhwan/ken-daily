@@ -7,7 +7,7 @@
           <option>2019</option>
         </select>
       </div>
-      <button-calendar :currentMonth="currentMonth"></button-calendar>
+      <button-calendar :currentMonth="currentMonth" :getNewsPaperList="getNewsPapersList"></button-calendar>
       <div style="float: right;"><button id="btnNewsPaper" @click="btnNewsPaperRegisterClick" class="fb7">Add</button></div>
     </div>
     <br>
@@ -64,25 +64,7 @@
       //공통함수로 빼자
       // console.log('Utils.getMonth', Utils.getMonth())
 
-      this.database = firebase.database()
-
-      let getMonth = (this.cal.getMonth()+1).toString().length === 1 ? '0'+(this.cal.getMonth()+1).toString() : (this.cal.getMonth()+1).toString()
-
-      let month = this.cal.getFullYear().toString().substr(2,2)+getMonth
-
-      let query = this.database.ref('newspaper/' + month+'/')
-
-      let tempResult
-
-      query.once("value")
-        .then((snapshot)=>{
-
-          snapshot.forEach( (childSnapShot) =>{
-            // console.log('key', childSnapShot.key)
-            // console.log('val', childSnapShot.val())
-            this.tableData.push(childSnapShot.val())
-          })
-        })
+      this.getNewsPapersList()
 
       // console.log('tableDAta', this.tableData)
     },
@@ -102,6 +84,30 @@
       },
       closeRegisterPopup () {
         this.showModalRegister = false
+      },
+      getNewsPapersList () {
+
+        this.tableData = []
+
+        this.database = firebase.database()
+
+        let getMonth = (this.cal.getMonth()+1).toString().length === 1 ? '0'+(this.cal.getMonth()+1).toString() : (this.cal.getMonth()+1).toString()
+
+        let month = this.cal.getFullYear().toString().substr(2,2)+getMonth
+
+        let query = this.database.ref('newspaper/' + month+'/')
+
+        let tempResult
+
+        query.once("value")
+          .then((snapshot)=>{
+
+            snapshot.forEach( (childSnapShot) =>{
+              // console.log('key', childSnapShot.key)
+              // console.log('val', childSnapShot.val())
+              this.tableData.push(childSnapShot.val())
+            })
+          })
       }
     },
     data: function () {

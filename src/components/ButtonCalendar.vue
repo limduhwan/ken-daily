@@ -1,13 +1,13 @@
 <template>
   <div style="float: left; width: 85%; padding: 3px 0px 3px 0px;">
-    <button v-for="month in months" @click="btnMonthClick" :class="[month===currentMonth ? 'button' : '' ]">{{month}}</button>
+    <button v-for="month in months" @click="getNewsPaperList" :class="[month===currentMonth ? 'button' : '' ]">{{month}}</button>
   </div>
 </template>
 
 <script>
   export default {
     name: 'button-calendar',
-    props: ['currentMonth'],
+    props: ['currentMonth', 'getNewsPaperList'],
     created () {
       let cal = new Date()
       console.log('this.currentMonth', this.currentMonth)
@@ -17,7 +17,14 @@
     },
     methods:{
       btnMonthClick: function(event){
-        console.log(event.target.textContent)
+        // console.log(event.target.textContent)
+        console.log(this.$parent)
+        console.log(this.$root)
+        console.log(this.$emit('getNewsPaperList'))
+        this.$parent.$options.methods.getNewsPaperList()
+        // console.log(this.$parent.getNewsPaperList())
+        // this.$parent.getNewsPaperList
+        // console.log(this.$parent.$options.methods.getNewsPaperList)
       }
     },
     data: function(){
