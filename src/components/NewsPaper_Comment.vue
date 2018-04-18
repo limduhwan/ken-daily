@@ -7,19 +7,7 @@
 
         <div class="modal-header">
           <slot name="header">
-            Comment를 남기자
-          </slot>
-        </div>
-
-        <div class="modal-body">
-          <slot name="body">
-            <textArea rows="15" cols="35" @input='updateValue($event.target.value)'>{{modalDataNewsPaperComment.comment}}</textArea>
-          </slot>
-
-        </div>
-
-        <div class="modal-footer">
-          <slot name="footer">
+            Comment
             <button class="modal-default-button" @click="closeAction">
               닫어
             </button>
@@ -27,6 +15,13 @@
               저장
             </button>
           </slot>
+        </div>
+
+        <div class="modal-body">
+          <slot name="body">
+            <textArea rows="8" cols="35" @input='updateValue($event.target.value)'>{{modalDataNewsPaperComment.comment}}</textArea>
+          </slot>
+
         </div>
       </div>
     </div>

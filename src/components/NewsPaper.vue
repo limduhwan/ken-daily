@@ -138,11 +138,6 @@
 </script>
 
 <style>
-  /*#news-paper {*/
-    /*width: 95%;*/
-    /*margin: 0 auto;*/
-  /*}*/
-
   th:nth-child(3) {
     text-align: center;
   }
