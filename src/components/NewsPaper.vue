@@ -64,7 +64,7 @@
       //공통함수로 빼자
       // console.log('Utils.getMonth', Utils.getMonth())
 
-      this.getNewsPapersList()
+      this.getNewsPapersList(this.cal.getMonth()+1)
 
       // console.log('tableDAta', this.tableData)
     },
@@ -85,19 +85,17 @@
       closeRegisterPopup () {
         this.showModalRegister = false
       },
-      getNewsPapersList () {
+      getNewsPapersList (_month) {
 
         this.tableData = []
 
         this.database = firebase.database()
 
-        let getMonth = (this.cal.getMonth()+1).toString().length === 1 ? '0'+(this.cal.getMonth()+1).toString() : (this.cal.getMonth()+1).toString()
+        let getMonth = _month.toString().length === 1 ? '0'+_month.toString(): _month
 
         let month = this.cal.getFullYear().toString().substr(2,2)+getMonth
 
         let query = this.database.ref('newspaper/' + month+'/')
-
-        let tempResult
 
         query.once("value")
           .then((snapshot)=>{

@@ -1,6 +1,6 @@
 <template>
   <div style="float: left; width: 85%; padding: 3px 0px 3px 0px;">
-    <button v-for="month in months" @click="getNewsPaperList" :class="[month===currentMonth ? 'button' : '' ]">{{month}}</button>
+    <button v-for="month in months" @click="getNewsPaperList(month)" :class="[month===currentMonth ? 'button' : '' ]">{{month}}</button>
   </div>
 </template>
 
@@ -10,7 +10,7 @@
     props: ['currentMonth', 'getNewsPaperList'],
     created () {
       let cal = new Date()
-      console.log('this.currentMonth', this.currentMonth)
+      // console.log('this.currentMonth', this.currentMonth)
       // console.log('cal get full year', cal.getFullYear())
       // console.log('cal get month', cal.getMonth()+1)
       // console.log('cal get iso string', cal.toISOString())

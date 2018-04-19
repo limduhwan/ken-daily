@@ -2,26 +2,20 @@
   <div id="app">
     <main>
       <vue-tabs>
-        <v-tab title="Voca">
-          <voca></voca>
-        </v-tab>
         <v-tab title="News Paper">
           <news-paper></news-paper>
         </v-tab>
 
-        <v-tab title="암기할 문장">
-
+        <v-tab title="Voca">
+          <voca></voca>
         </v-tab>
-
 
         <v-tab title="Readings">
           Third tab content
         </v-tab>
-        <v-tab title="스터디">
-          <study></study>
-        </v-tab>
-        <v-tab title="Links">
 
+        <v-tab title="Links">
+          <links></links>
         </v-tab>
       </vue-tabs>
     </main>
@@ -38,13 +32,15 @@
   import NewsPaper from './components/NewsPaper'
   import Study from './components/Study'
   import Voca from './components/Voca'
+  import Links from  './components/Links'
 
   export default {
     name: 'app',
     components: {
       NewsPaper,
       Study,
-      Voca
+      Voca,
+      Links
     }
   }
 </script>

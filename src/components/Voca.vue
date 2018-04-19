@@ -1,8 +1,8 @@
 <template>
   <div>
     <div style="float: right">
-      <!--<input type="text" v-model="inputVoca">-->
-      <Button @click="btnRegisterVoca">등록</Button>
+      <input type="text" v-model="inputVoca">
+      <Button @click="btnRegisterVoca">Add</Button>
     </div>
     <v-client-table :columns="colums" :data="tableData" :options="tableOptions">
       <div slot="child_row" slot-scope="props">
@@ -34,6 +34,8 @@
     methods: {
       getVocaList () {
 
+        this.tableData = []
+
         this.database = firebase.database()
 
         let query = this.database.ref('voca/')
@@ -43,29 +45,30 @@
             // console.log(snapshot)
             snapshot.forEach((childSnapShot) => {
               // console.log('key', childSnapShot.key)
-              console.log('val', childSnapShot.val())
               this.tableData.push(childSnapShot.val())
             })
           })
       },
       btnRegisterVoca: function (){
-        // this.database = firebase.database()
+        this.database = firebase.database()
 
-        // let idTimeStamp = this.cal.toISOString()
-        //
-        // console.log('timeStamp', idTimeStamp)
-        // console.log('inputVoca', this.inputVoca)
+        let idTimeStamp = new Date().toISOString().substring(0, 19).replace(/-/gi,'').replace(/:/gi,'')
 
-        // this.database.ref('voca/').set({
-        //   // id : idTimeStamp,
-        //   // voca : this.inputVoca
-        // })
+        this.database.ref('voca/'+idTimeStamp+'/').set({
+          id : idTimeStamp,
+          voca : this.inputVoca
+        })
+
+        this.getVocaList()
       },
       getVocaLink: function(voca){
         return this.vocalink = 'http://endic.naver.com/search.nhn?sLn=kr&isOnlyViewEE=N&query='+voca;
       },
       btnDelClick (rowId) {
-        console.log(rowId)
+        this.database = firebase.database()
+        this.database.ref('voca/'+rowId+'/').remove()
+
+        this.getVocaList()
       }
     },
     data: function (){
