@@ -58,7 +58,7 @@
 
         let month = this.cal.getFullYear().toString().substr(2,2)+getMonth
 
-        let url = 'newspaper/'+month+'/'+this.modalDataNewsPaperComment.date
+        let url = 'newspaper/'+month+'/'+this.modalDataNewsPaperComment.id
         let query = this.database.ref(url)
         query.update({
           comment : this.textAreaComment

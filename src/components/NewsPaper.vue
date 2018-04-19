@@ -20,7 +20,7 @@
           {{props.row.title}}
         </a>
         <div slot="comment" slot-scope="props">
-          <button @click="btnCommentClick(props.row.date, props.row.comment)">.</button>
+          <button @click="btnCommentClick(props.row.id, props.row.comment)">.</button>
         </div>
       </v-client-table>
     </div>
@@ -73,10 +73,9 @@
 
         this.showModalRegister = true;
       },
-      btnCommentClick: function(date, comment) {
-        this.ObjectModalDataNewsPaperComment.ttt = 'ttt'
+      btnCommentClick: function(id, comment) {
         this.ObjectModalDataNewsPaperComment.comment = comment
-        this.ObjectModalDataNewsPaperComment.date = date
+        this.ObjectModalDataNewsPaperComment.id = id
         this.showModalComment = true
       },
       closeCommentPopup () {
@@ -102,7 +101,7 @@
 
             snapshot.forEach( (childSnapShot) =>{
               // console.log('key', childSnapShot.key)
-              // console.log('val', childSnapShot.val())
+              console.log('val', childSnapShot.val())
               this.tableData.push(childSnapShot.val())
             })
           })
