@@ -4,14 +4,14 @@
       <!--<input type="text" v-model="inputVoca">-->
       <Button @click="btnRegisterVoca">등록</Button>
     </div>
-    <v-client-table :columns="colums" :data="tableData" :options="options">
-      <!--<div slot="child_row" slot-scope="props">-->
-        <!--{{props.row.mean}}-->
-      <!--</div>-->
-      <!--<a slot="voca" slot-scope="props" target="_blank" :href="getVocaLink(props.row.voca)">{{props.row.voca}}</a>-->
-      <!--<div slot="del" slot-scope="props">-->
-        <!--<button @click="btnDelClick(props.row.id)">.</button>-->
-      <!--</div>-->
+    <v-client-table :columns="colums" :data="tableData" :options="tableOptions">
+      <div slot="child_row" slot-scope="props">
+        {{props.row.mean}}
+      </div>
+      <a slot="voca" slot-scope="props" target="_blank" :href="getVocaLink(props.row.voca)">{{props.row.voca}}</a>
+      <div slot="del" slot-scope="props">
+        <button @click="btnDelClick(props.row.id)">.</button>
+      </div>
     </v-client-table>
   </div>
 </template>
@@ -43,7 +43,7 @@
             // console.log(snapshot)
             snapshot.forEach((childSnapShot) => {
               // console.log('key', childSnapShot.key)
-              // console.log('val', childSnapShot.val())
+              console.log('val', childSnapShot.val())
               this.tableData.push(childSnapShot.val())
             })
           })
@@ -74,16 +74,10 @@
         inputVoca: '',
         tableData: [],
         // data: getData(),
-        // vocalink: this.getVocaLink,
-        colums: ['id', 'voca'],
-        options: {
-          headings: {
-            // category: 'Cate.',
-            Voca: 'Voca',
-            Del: 'Del'
-          },
+        vocalink: this.getVocaLink,
+        colums: ['voca', 'del'],
+        tableOptions:{
           filterable: false
-
         }
       }
     }
