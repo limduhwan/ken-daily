@@ -119,15 +119,15 @@
         objectModalDataNewsPaper: {},
         ObjectModalDataNewsPaperComment: {},
         selectedYear: 2018,
-        colums: ['date', 'title', 'comment'],
+        colums: ['id', 'title', 'comment'],
         tableData: [],
         options: {
           headings: {
-            date: '날짜',
+            id: 'Date',
             link: '링크',
-            title: '제목',
+            title: 'Title',
             studyyn: '여부',
-            comment: ''
+            comment: 'com.'
           },
           filterable: false
 

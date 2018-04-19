@@ -3,9 +3,9 @@
 </template>
 
 <script>
-    export default {
-        name: "Voca_Register"
-    }
+  export default {
+    name: "Voca_Register"
+  }
 </script>
 
 <style scoped>

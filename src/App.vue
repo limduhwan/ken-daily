@@ -14,7 +14,7 @@
         </v-tab>
 
 
-        <v-tab title="독서">
+        <v-tab title="Readings">
           Third tab content
         </v-tab>
         <v-tab title="스터디">
