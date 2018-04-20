@@ -80,7 +80,7 @@
           link : this.link,
 
           month : getMonth,
-          date : key,
+          id : key,
           study : 'N',
           comment : ''
         })
