@@ -14,9 +14,9 @@
     <div>
       <v-client-table :data="tableData" :columns="colums" :options="options">
         <div slot="child_row" slot-scope="props">
-          <input type="text" size="35" v-model="upperVoca"><Button @click="btnClickSaveVoca('upper')">Save</Button><br>
+          <input type="text" size="31" v-model="upperVoca"><Button @click="btnClickSaveVoca('upper')">Save</Button><br>
           {{props.row.content}}
-          <input type="text" size="35" v-model="belowVoca"><Button @click="btnClickSaveVoca('below')">Save</Button><br>
+          <input type="text" size="31" v-model="belowVoca"><Button @click="btnClickSaveVoca('below')">Save</Button><br>
         </div>
         <a slot="title" slot-scope="props" target="_blank" :href="props.row.link">
           {{props.row.title}}
