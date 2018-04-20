@@ -14,7 +14,9 @@
     <div>
       <v-client-table :data="tableData" :columns="colums" :options="options">
         <div slot="child_row" slot-scope="props">
+          <input type="text" size="40" v-model="upperVoca"><Button @click="btnClickSaveVoca('upper')">Save</Button><br>
           {{props.row.content}}
+          <input type="text" size="40" v-model="belowVoca"><Button @click="btnClickSaveVoca('below')">Save</Button><br>
         </div>
         <a slot="title" slot-scope="props" target="_blank" :href="props.row.link">
           {{props.row.title}}
@@ -84,6 +86,22 @@
       closeRegisterPopup () {
         this.showModalRegister = false
       },
+      btnClickSaveVoca (Gubun) {
+        console.log(Gubun)
+        Gubun === 'upper' ? this.saveVoca(this.upperVoca) : this.saveVoca(this.belowVoca)
+
+      },
+      saveVoca(voca) {
+        this.database = firebase.database()
+
+        let idTimeStamp = new Date().toISOString().substring(0, 19).replace(/-/gi,'').replace(/:/gi,'')
+
+        this.database.ref('voca/'+idTimeStamp+'/').set({
+          id : idTimeStamp,
+          voca : voca
+        })
+
+      },
       getNewsPapersList (_month) {
 
         this.tableData = []
@@ -109,6 +127,8 @@
     },
     data: function () {
       return {
+        upperVoca: '',
+        belowVoca: '',
         currentMonth: (new Date().getMonth()+1),
         cal: new Date(),
         showModalComment: false,
