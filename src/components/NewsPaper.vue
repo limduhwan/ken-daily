@@ -14,9 +14,9 @@
     <div>
       <v-client-table :data="tableData" :columns="colums" :options="options">
         <div slot="child_row" slot-scope="props">
-          <input type="text" size="31" v-model="upperVoca"><Button @click="btnClickSaveVoca('upper')">Save</Button><br>
+          <input type="text" size="25" v-model="upperVoca"><Button @click="clearVocaInput">C</Button><Button @click="btnClickSaveVoca('upper')">S</Button><br>
           {{props.row.content}}<br>
-          <input type="text" size="31" v-model="belowVoca"><Button @click="btnClickSaveVoca('below')">Save</Button><br>
+          <input type="text" size="25" v-model="belowVoca"><Button @click="clearVocaInput">C</Button><Button @click="btnClickSaveVoca('below')">S</Button><br>
         </div>
         <a slot="title" slot-scope="props" target="_blank" :href="props.row.link">
           {{props.row.title}}
@@ -99,8 +99,16 @@
         this.database.ref('voca/'+idTimeStamp+'/').set({
           id : idTimeStamp,
           voca : voca
+        }, function(){
+          console.log('save done')
+          // console.log(this)
+          // return this.clearVocaInput()
         })
 
+      },
+      clearVocaInput (){
+        this.upperVoca = ''
+        this.belowVoca = ''
       },
       getNewsPapersList (_month) {
 
