@@ -20,7 +20,7 @@
           <slot name="body">
             Title <input type="text" width="100%" v-model="title"><br>
             Link <input tpye="text" v-model="link"><br>
-          Content <textArea rows="13" cols="35" @input="updateValue($event.target.value)"></textArea>
+          Content <vue-editor v-model="content"></vue-editor>
           </slot>
         </div>
 
@@ -43,12 +43,17 @@
   // FireBase Setting
   import firebase from 'firebase'
   import Firebase_Config from '../config/Firebase_Config'
+  import { VueEditor } from 'vue2-editor'
 
   export default {
     name: 'newspaper_register',
+    components: {
+      VueEditor
+    },
     props: ['showModal', 'closeAction', 'modalDataNewsPaper'],
     data : function() {
       return {
+        content: '',
         cal: new Date(),
         selectedDay: new Date().getDate(),
         title: '',

@@ -1,5 +1,5 @@
 <template>
-  <div style="float: left; width: 85%; padding: 3px 0px 3px 0px;">
+  <div>
     <button v-for="month in months" @click="getNewsPaperList(month)" :class="[month===currentMonth ? 'button' : '' ]">{{month}}</button>
   </div>
 </template>

@@ -2,20 +2,14 @@
   <div id="app">
     <main>
       <vue-tabs>
+        <v-tab title="EBS">
+          <e-b-s></e-b-s>
+        </v-tab>
+        <v-tab title="TEST">
+          <hello-world></hello-world>
+        </v-tab>
         <v-tab title="News Paper">
-          <news-paper></news-paper>
-        </v-tab>
-
-        <v-tab title="Voca">
-          <voca></voca>
-        </v-tab>
-
-        <v-tab title="Readings">
-          Third tab content
-        </v-tab>
-
-        <v-tab title="Links">
-          <links></links>
+          <NewsPaper></NewsPaper>
         </v-tab>
       </vue-tabs>
     </main>
@@ -30,17 +24,15 @@
 
 <script>
   import NewsPaper from './components/NewsPaper'
-  import Study from './components/Study'
-  import Voca from './components/Voca'
-  import Links from  './components/Links'
+  import HelloWorld from "./components/HelloWorld";
+  import EBS from "./components/EBS";
 
   export default {
     name: 'app',
     components: {
-      NewsPaper,
-      Study,
-      Voca,
-      Links
+      EBS,
+      HelloWorld,
+      NewsPaper
     }
   }
 </script>

@@ -1,22 +1,25 @@
 <template>
   <div>
     <div>
-      <div style="float: left; width: 15%; padding: 3px 0px 3px 0px;">
-        <select v-model="selectedYear">
-          <option>2018</option>
-          <option>2019</option>
-        </select>
-      </div>
-      <button-calendar :currentMonth="currentMonth" :getNewsPaperList="getNewsPapersList"></button-calendar>
-      <div style="float: right;"><button id="btnNewsPaper" @click="btnNewsPaperRegisterClick" class="fb7">Add</button></div>
+    <div style="float: left; width: 15%; padding: 3px 0px 3px 0px;">
+      <select v-model="selectedYear">
+        <option>2018</option>
+        <option>2019</option>
+      </select>
     </div>
+    <button-calendar :currentMonth="currentMonth" :getNewsPaperList="getNewsPapersList"></button-calendar>
+    <div style="float: right;"><button id="btnNewsPaper" @click="btnNewsPaperRegisterClick" class="fb7">Add</button></div>
+  </div>
     <br>
     <div>
       <v-client-table :data="tableData" :columns="colums" :options="options">
+        <!--<div slot="child_row" slot-scope="props">-->
+          <!--<input type="text" size="25" v-model="upperVoca"><Button @click="clearVocaInput">C</Button><Button @click="btnClickSaveVoca('upper')">S</Button><br>-->
+          <!--{{props.row.content}}<br>-->
+          <!--<input type="text" size="25" v-model="belowVoca"><Button @click="clearVocaInput">C</Button><Button @click="btnClickSaveVoca('below')">S</Button><br>-->
+        <!--</div>-->
         <div slot="child_row" slot-scope="props">
-          <input type="text" size="25" v-model="upperVoca"><Button @click="clearVocaInput">C</Button><Button @click="btnClickSaveVoca('upper')">S</Button><br>
-          {{props.row.content}}<br>
-          <input type="text" size="25" v-model="belowVoca"><Button @click="clearVocaInput">C</Button><Button @click="btnClickSaveVoca('below')">S</Button><br>
+          <vue-editor v-model="content">{{props.row.content}}</vue-editor>
         </div>
         <a slot="title" slot-scope="props" target="_blank" :href="props.row.link">
           {{props.row.title}}
@@ -47,9 +50,10 @@
   import firebase from 'firebase'
   import Firebase_Config from '../config/Firebase_Config'
 
-  import ButtonCalendar from './ButtonCalendar'
+  import ButtonCalendar from './com/ButtonCalendar'
   import NewsPaperComment from './NewsPaper_Comment'
   import NewsPaperRegister from './NewsPaper_Register'
+  import { VueEditor } from 'vue2-editor'
   import Utils from '../script/utils'
 
   export default {
@@ -57,7 +61,8 @@
     components: {
       ButtonCalendar,
       NewsPaperComment,
-      NewsPaperRegister
+      NewsPaperRegister,
+      VueEditor
     },
     created: function (){
       // firebase.initializeApp(config)
@@ -135,6 +140,7 @@
     },
     data: function () {
       return {
+        content: '',
         upperVoca: '',
         belowVoca: '',
         currentMonth: (new Date().getMonth()+1),
