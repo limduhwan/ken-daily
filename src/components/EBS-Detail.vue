@@ -74,12 +74,7 @@
 
         console.log(month)
 
-        // this.tableData = []
-        // this.database = firebase.database()
-        // let getMonth = _month.toString().length === 1 ? '0'+_month.toString(): _month
-        // let month = this.cal.getFullYear().toString().substr(2,2)+getMonth
         let query = this.database.ref('newspaper/' + month+'/'+id)
-        //
         query.once("value")
           .then((snapshot)=>{
             snapshot.forEach( (childSnapShot) =>{
@@ -88,6 +83,9 @@
               switch(childSnapShot.key) {
                 case "content":
                   this.content = childSnapShot.val()
+                  break;
+                case "title":
+                  this.title = childSnapShot.val()
                   break;
               }
             })
@@ -98,7 +96,7 @@
     data() {
       return {
         title: "",
-        content: '<h1>Some initi content</h1>',
+        content: '',
         cal: new Date(),
         selectedDay: new Date().getDate()
       }
