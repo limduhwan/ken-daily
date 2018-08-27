@@ -1,5 +1,11 @@
 <template>
   <div>
+    <div style="float: left; width: 22%; padding: 3px 3px 3px 3px;">
+      <select-box-year class="selectBox"></select-box-year>
+    </div>
+    <div style="float: left; width: 30%; padding: 3px 3px 3px 3px;">
+      <select-box-month class="selectBox" :getNewsEBSlist="getNewsEBSlist"></select-box-month>
+    </div>
     <div align="right">
       <button @click="btnAddClick" class="button">Add</button>
     </div>
@@ -24,19 +30,26 @@
   // FireBase Setting
   import firebase from 'firebase'
   import Firebase_Config from '../config/Firebase_Config'
-  import ButtonCalendar from './com/ButtonCalendar'
+
+  import ButtonCalendar from './com/selectBoxDay'
   import { VueEditor } from 'vue2-editor'
   import EBSDetail from './EBS-Detail'
+  import SelectBoxMonth from './com/selectBoxMonth'
+  import SelectBoxYear from './com/selectBoxYear'
 
     export default {
       name: "EBS",
       components: {
+        SelectBoxMonth,
+        SelectBoxYear,
         ButtonCalendar,
         EBSDetail,
         VueEditor
       },
       created: function (){
-        this.getNewsPapersList(this.cal.getMonth()+1)
+
+        // this.getNewsPapersList(this.cal.getMonth()+1)
+        this.getNewsEBSlist(this.cal.getMonth()+1)
       },
       methods: {
         titleClick (id, comment) {
@@ -49,27 +62,30 @@
           this.showModalEBSDetail = true
         },
         closeEBSDetailPopup () {
+          this.objectEBSDetail.id = ''
           this.showModalEBSDetail = false
         },
-        getNewsPapersList (_month) {
+        getNewsEBSlist (month) {
+          // console.log("month    "+month)
+          // console.log(selectedYears)
+          // console.log(this.selectedMonths)
+
           this.tableData = []
 
           this.database = firebase.database()
 
-          let getMonth = _month.toString().length === 1 ? '0'+_month.toString(): _month
+          let getMonth = month.toString().length === 1 ? '0'+month.toString(): month
 
-          // let month = this.cal.getFullYear().toString().substr(2,2)+getMonth
+          let yearMonth = '18'+getMonth
+          let query = this.database.ref('newspaper/' + yearMonth+'/')
 
-          let month = '1808'
-          let query = this.database.ref('newspaper/' + month+'/')
-
-          console.log(query)
+          // console.log(query)
 
           query.once("value")
             .then((snapshot)=>{
               snapshot.forEach( (childSnapShot) =>{
-                 console.log('key', childSnapShot.key)
-                console.log('val', childSnapShot.val())
+                 // console.log('key', childSnapShot.key)
+                // console.log('val', childSnapShot.val())
                 this.tableData.push(childSnapShot.val())
               })
             })
@@ -82,7 +98,8 @@
           content: '',
           currentMonth: (new Date().getMonth()+1),
           cal: new Date(),
-          selectedYear: 2018,
+          selectedYears: '',
+          selectedMonths: '',
           colums: ['id', 'title'],
           tableData: [],
           options: {
@@ -90,8 +107,10 @@
               id: 'Date',
               title: 'Title'
             },
-            filterable: false
-
+            filterable: false,
+            // pagination: { chunk:10, dropdown:false },
+            perPage: 100,
+            // pagination.dropdown: false
           }
         }
       }
@@ -110,5 +129,20 @@
     font-size: 16px;
     margin: 4px 2px;
     cursor: pointer;
+  }
+
+
+  .selectBox {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 5px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-weight: bold;
   }
 </style>

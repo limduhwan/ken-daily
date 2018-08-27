@@ -50,7 +50,7 @@
   import firebase from 'firebase'
   import Firebase_Config from '../config/Firebase_Config'
 
-  import ButtonCalendar from './com/ButtonCalendar'
+  import ButtonCalendar from './com/selectBoxDay'
   import NewsPaperComment from './NewsPaper_Comment'
   import NewsPaperRegister from './NewsPaper_Register'
   import { VueEditor } from 'vue2-editor'
@@ -160,7 +160,7 @@
             studyyn: '여부',
             comment: 'com.'
           },
-          filterable: false
+          filterable: false,
 
         }
       }

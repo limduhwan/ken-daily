@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div v-on:click.right="onRightButton">
+    <textarea v-model="log" rows="6"></textarea>
     <vue-editor id="editor"
                 useCustomImageHandler
                 @imageAdded="handleImageAdded" v-model="editorContent">
@@ -16,11 +17,16 @@
 
     data() {
       return {
-        editorContent: 'Initial Content'
+        editorContent: 'Initial Content',
+        log: ''
       }
     },
 
     methods: {
+      onRightButton: function(e) {
+        console.log(e)
+        // this.log += e.target.value;
+      },
       handleImageAdded: function(file, Editor, cursorLocation, resetUploader) {
         // An example of using FormData
         // NOTE: Your key could be different such as:

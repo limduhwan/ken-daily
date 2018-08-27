@@ -5,11 +5,11 @@
         <v-tab title="EBS">
           <e-b-s></e-b-s>
         </v-tab>
+        <v-tab title="VOCA">
+          <voca></voca>
+        </v-tab>
         <v-tab title="TEST">
           <hello-world></hello-world>
-        </v-tab>
-        <v-tab title="News Paper">
-          <NewsPaper></NewsPaper>
         </v-tab>
       </vue-tabs>
     </main>
@@ -26,10 +26,12 @@
   import NewsPaper from './components/NewsPaper'
   import HelloWorld from "./components/HelloWorld";
   import EBS from "./components/EBS";
+  import Voca from "./components/Voca";
 
   export default {
     name: 'app',
     components: {
+      Voca,
       EBS,
       HelloWorld,
       NewsPaper

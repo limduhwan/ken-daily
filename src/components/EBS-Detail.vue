@@ -16,8 +16,12 @@
           </button>
         </div>
         <div class="modal-body">
-          <input class="title" v-model="title" placeholder="title here">
-         <vue-editor id="editor" v-model="content"></vue-editor>
+          <div>
+            <input style="float: left; width: 60%; padding: 3px 3px 3px 3px;" class="title" v-model="title" placeholder="title here">
+            <input style="float: left; width: 20%; padding: 3px 3px 3px 3px;" class="title" v-model="voca" placeholder="voca here">
+            <button style="float: left; width: 18%; padding: 3px 3px 3px 3px;" class="btnadd" @click="saveVoca">Add</button>
+          </div>
+          <div><vue-editor id="editor" v-model="content"></vue-editor></div>
         </div>
       </div>
     </div>
@@ -38,8 +42,9 @@
     },
     created () {
       console.log("id////  "+this.objectEBSDetail.id)
-      this.getEBSContents(this.objectEBSDetail.id)
-
+      if(this.objectEBSDetail.id !='') {
+        this.getEBSContents(this.objectEBSDetail.id)
+      }
     },
     computed: {
       getLastDay : function(){
@@ -50,15 +55,18 @@
     },
     methods: {
       save : function(){
-        console.log("save")
+        // console.log("save")
         this.database = firebase.database()
 
         let getMonth = (this.cal.getMonth()+1).toString().length === 1 ? '0'+(this.cal.getMonth()+1).toString() : (this.cal.getMonth()+1).toString()
-        let key = this.cal.getFullYear().toString().substr(2,2)+getMonth+this.selectedDay
+
+        let days = (this.selectedDay).toString().length === 1 ? "0"+(this.selectedDay).toString() : this.selectedDay
+
+        let key = this.cal.getFullYear().toString().substr(2,2)+getMonth+days
 
         let month = this.cal.getFullYear().toString().substr(2,2)+getMonth
 
-        console.log('newspaper/' + month+'/'+key)
+        // console.log('newspaper/' + month+'/'+key)
         // console.log(this.content)
         this.database.ref('newspaper/' + month+'/'+key).set({
           content : this.content,
@@ -67,19 +75,34 @@
           id : key,
         })
       },
+      saveVoca: function() {
+        console.log("saveVoca")
+        this.database = firebase.database()
+
+        let year = this.cal.getFullYear()
+        let getMonth = (this.cal.getMonth()+1).toString().length === 1 ? '0'+(this.cal.getMonth()+1).toString() : (this.cal.getMonth()+1).toString()
+        let day = (this.selectedDay).toString().length === 1 ? "0"+(this.selectedDay).toString() : this.selectedDay
+        let timestamp = new Date().getHours().toString()+new Date().getMinutes().toString()+new Date().getSeconds().toString()
+
+        // console.log(timestamp)
+        this.database.ref('voca/' + year+'/'+ getMonth + '/' + day +'/'+ timestamp).set({
+          id : timestamp,
+          word : this.voca,
+        })
+      },
       getEBSContents (id) {
         console.log("get EBS Contents/////"+ id)
         this.database = firebase.database()
         let month = id.substr(0,4)
 
-        console.log(month)
+        this.selectedDay = id.substr(4,2).substr(0,1) === '0' ? id.substr(4,2).substr(1,1) : id.substr(4,2)
 
         let query = this.database.ref('newspaper/' + month+'/'+id)
         query.once("value")
           .then((snapshot)=>{
             snapshot.forEach( (childSnapShot) =>{
-              console.log('key', childSnapShot.key)
-              console.log('val', childSnapShot.val())
+              // console.log('key', childSnapShot.key)
+              // console.log('val', childSnapShot.val())
               switch(childSnapShot.key) {
                 case "content":
                   this.content = childSnapShot.val()
@@ -95,10 +118,12 @@
 
     data() {
       return {
-        title: "",
+        title: '',
+        voca:'',
         content: '',
         cal: new Date(),
         selectedDay: new Date().getDate()
+
       }
     }
   }
@@ -201,6 +226,20 @@
     display: inline-block;
     font-size: 16px;
     margin: 4px 2px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .btnadd {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 3px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 2px 2px;
     cursor: pointer;
     font-weight: bold;
   }
