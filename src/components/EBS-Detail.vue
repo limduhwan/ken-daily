@@ -3,7 +3,7 @@
     <div class="modal-wrapper">
       <div class="modal-container">
         <div class="modal-header">
-          <select class="selectBox" v-model="selectedDay">
+          <select class="selectBox" v-model="selectedDay" @change="getEBSContents">
             <option v-for="day in getLastDay" >
               {{day}}
             </option>
@@ -44,6 +44,9 @@
       console.log("id////  "+this.objectEBSDetail.id)
       if(this.objectEBSDetail.id !='') {
         this.getEBSContents(this.objectEBSDetail.id)
+        this.selectedMonth = id.substr(0,4)
+        this.selectedDay = id.substr(4,2).substr(0,1) === '0' ? id.substr(4,2).substr(1,1) : id.substr(4,2)
+
       }
     },
     computed: {
@@ -51,7 +54,6 @@
         let lastDay = ( new Date( this.cal.getFullYear(), this.cal.getMonth()+1, 0) ).getDate();
         return lastDay
       }
-
     },
     methods: {
       save : function(){
@@ -122,7 +124,8 @@
         voca:'',
         content: '',
         cal: new Date(),
-        selectedDay: new Date().getDate()
+        selectedDay: new Date().getDate(),
+        selectedMonth:'',
 
       }
     }
