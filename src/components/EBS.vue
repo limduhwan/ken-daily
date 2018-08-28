@@ -108,7 +108,7 @@
               title: 'Title'
             },
             filterable: false,
-            pagination: { chunk:0, dropdown:false },
+            //pagination: { chunk:0, dropdown:false },
             perPageValues: [100],
             // pagination: { dropdown:false },
           }
