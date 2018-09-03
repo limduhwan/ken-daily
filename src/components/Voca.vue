@@ -122,7 +122,9 @@
               word: 'Word',
               delete: 'Del'
             },
-            filterable: false
+            filterable: false,
+            //pagination: { chunk:0, dropdown:false },
+            perPageValues: [100],
 
           }
         }

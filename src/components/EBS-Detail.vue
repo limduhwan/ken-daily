@@ -76,6 +76,7 @@
           month : getMonth,
           id : key,
         })
+
       },
       saveVoca: function() {
         console.log("saveVoca")
@@ -91,6 +92,8 @@
           id : timestamp,
           word : this.voca,
         })
+
+        this.voca = ""
       },
       getEBSContents (id) {
         console.log("get EBS Contents/////"+ id)
