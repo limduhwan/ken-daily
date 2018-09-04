@@ -83,11 +83,16 @@
 
         let year = this.cal.getFullYear()
         let getMonth = (this.cal.getMonth()+1).toString().length === 1 ? '0'+(this.cal.getMonth()+1).toString() : (this.cal.getMonth()+1).toString()
-        let day = (this.selectedDay).toString().length === 1 ? "0"+(this.selectedDay).toString() : this.selectedDay
-        let timestamp = new Date().getHours().toString()+new Date().getMinutes().toString()+new Date().getSeconds().toString()
+        let getDay = (this.selectedDay).toString().length === 1 ? "0"+(this.selectedDay).toString() : this.selectedDay
+        let getTime = new Date().getHours().toString().length === 1 ? "0"+new Date().getHours().toString() : new Date().getHours().toString()
+        let getMin = new Date().getMinutes().toString().length === 1 ? "0"+new Date().getMinutes().toString() : new Date().getMinutes().toString()
 
-        // console.log(timestamp)
-        this.database.ref('voca/' + year+'/'+ getMonth + '/' + day +'/'+ timestamp).set({
+        let timestamp = getTime+new Date().getMinutes().toString()+new Date().getSeconds().toString()
+
+        let ref = 'voca/' + year+'/'+ getMonth + '/' + getDay +'/'+ timestamp
+
+        console.log(ref)
+        this.database.ref(ref).set({
           id : timestamp,
           word : this.voca,
         })
