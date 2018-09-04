@@ -21,7 +21,7 @@
             <input style="float: left; width: 20%; padding: 3px 3px 3px 3px;" class="title" v-model="voca" placeholder="voca here">
             <button style="float: left; width: 18%; padding: 3px 3px 3px 3px;" class="btnadd" @click="saveVoca">Add</button>
           </div>
-          <div><vue-editor id="editor" v-model="content"></vue-editor></div>
+          <div><vue-editor id="editor1" v-model="content"></vue-editor></div>
         </div>
       </div>
     </div>
@@ -76,7 +76,6 @@
           month : getMonth,
           id : key,
         })
-
       },
       saveVoca: function() {
         console.log("saveVoca")
@@ -98,11 +97,14 @@
       getEBSContents (id) {
         console.log("get EBS Contents/////"+ id)
         this.database = firebase.database()
+
+        let key = id
+
         let month = id.substr(0,4)
 
         this.selectedDay = id.substr(4,2).substr(0,1) === '0' ? id.substr(4,2).substr(1,1) : id.substr(4,2)
 
-        let query = this.database.ref('newspaper/' + month+'/'+id)
+        let query = this.database.ref('newspaper/' + month+'/'+key)
         query.once("value")
           .then((snapshot)=>{
             snapshot.forEach( (childSnapShot) =>{
@@ -135,9 +137,13 @@
   }
 </script>
 <style scoped>
-  #editor {
-    /*height: 2px;px*/
-    height: 100%;
+  #editorHeight {
+    height: 350px;
+    /*height: 100%;*/
+  }
+
+  #editor1, #editor2 {
+    height: 350px;
   }
 
   .modal-mask {
